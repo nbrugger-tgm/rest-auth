@@ -34,7 +34,7 @@ public class AuthenticationController {
 		handler.addAuthenticateable(new User(username), password);
 		return handler.getID(username);
 	}
-	@GetMapping("{username}")
+	@GetMapping("{username}/private_content")
 	@ResponseBody
 	public ResponseEntity<String> authenticatedOperation(@PathVariable String username, HttpServletRequest request){
 		User u = handler.getAuthentication(request);

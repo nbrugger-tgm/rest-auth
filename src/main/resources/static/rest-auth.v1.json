@@ -1,0 +1,161 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "rest-auth",
+    "version": "1.0",
+    "description": "An api authentication service"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Test server"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Create user",
+        "operationId": "register",
+        "responses": {
+          "200": {
+            "description": "ACCOUNT CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "The X-SESSION id of the user"
+                }
+              }
+            }
+          }
+        },
+        "description": "Creates a new account",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "username",
+            "description": "The name/id of the user",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "password"
+            },
+            "in": "query",
+            "name": "password",
+            "description": "the password for the new user, if null a random password is generated",
+            "allowEmptyValue": true
+          }
+        ]
+      }
+    },
+    "/login/{user}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "user",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Login",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The id to use for authentication headers. Null when unsuccessfull"
+                    },
+                    "result": {
+                      "type": "string",
+                      "description": "The result as enum so you know what went wrong"
+                    }
+                  },
+                  "required": [
+                    "result"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "login",
+        "description": "Login as a user to get his token for further access\n\n> Do not spam this endpoint. Doing so can result in banns and restrictions",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "description": "The password to use for loggin"
+          }
+        ]
+      }
+    },
+    "/{user}/private_content": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "user",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get private information",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "The private information"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "operationId": "getInformation",
+        "security": [
+          {
+            "User key": []
+          }
+        ],
+        "description": "Get information only accessible by the user himself"
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "User key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-SESSION",
+        "description": "The seession key of the user, obtainable via /login"
+      }
+    }
+  }
+}
