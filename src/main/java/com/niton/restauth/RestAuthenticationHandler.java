@@ -2,6 +2,7 @@ package com.niton.restauth;
 
 import com.niton.jauth.AuthenticationHandler;
 import com.niton.restauth.jpa.UserRepo;
+import com.niton.restauth.model.User;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;

@@ -3,6 +3,8 @@ package com.niton.restauth;
 import com.niton.jauth.AccountManager;
 import com.niton.login.LoginResult;
 import com.niton.restauth.jpa.UserRepo;
+import com.niton.restauth.model.LoginResponse;
+import com.niton.restauth.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthenticationController {
 
 	public  AccountManager<User, HttpServletRequest> handler;
+	private UserRepo repo;
 
 	public AuthenticationController(@Autowired UserRepo repos) {
 		handler = new AccountManager<>(new RestAuthenticationHandler(repos));
+		this.repo = repos;
 	}
 
 
@@ -30,9 +34,11 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("register")
-	public String register(@RequestParam(required = false) String password,@RequestParam String username){
+	public ResponseEntity<String> register(@RequestParam(required = false) String password,@RequestParam String username){
+		if(repo.existsById(username))
+			return new ResponseEntity("Cannot register existing user",HttpStatus.CONFLICT);
 		handler.addAuthenticateable(new User(username), password);
-		return handler.getID(username);
+		return new ResponseEntity(handler.getID(username),HttpStatus.CREATED);
 	}
 	@GetMapping("{username}/private_content")
 	@ResponseBody

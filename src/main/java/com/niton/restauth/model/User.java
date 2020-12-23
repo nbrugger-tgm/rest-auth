@@ -1,4 +1,4 @@
-package com.niton.restauth;
+package com.niton.restauth.model;
 
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
