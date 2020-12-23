@@ -36,9 +36,9 @@ public class AuthenticationController {
 	@PostMapping("register")
 	public ResponseEntity<String> register(@RequestParam(required = false) String password,@RequestParam String username){
 		if(repo.existsById(username))
-			return new ResponseEntity("Cannot register existing user",HttpStatus.CONFLICT);
+			return new ResponseEntity<>("Cannot register existing user",HttpStatus.CONFLICT);
 		handler.addAuthenticateable(new User(username), password);
-		return new ResponseEntity(handler.getID(username),HttpStatus.CREATED);
+		return new ResponseEntity<>(handler.getID(username),HttpStatus.CREATED);
 	}
 	@GetMapping("{username}/private_content")
 	@ResponseBody
