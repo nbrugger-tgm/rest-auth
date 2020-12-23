@@ -48,7 +48,7 @@ public class AuthenticationController {
 			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 		if(!u.getName().equals(username))
 			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		return new ResponseEntity<>(u.getPrivateText(),HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(u.getPrivateText(),HttpStatus.OK);
 	}
 
 }
