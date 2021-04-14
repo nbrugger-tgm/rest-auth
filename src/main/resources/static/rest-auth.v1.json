@@ -81,7 +81,14 @@
                     },
                     "result": {
                       "type": "string",
-                      "description": "The result as enum so you know what went wrong"
+                      "description": "The result as enum so you know what went wrong",
+                      "enum": [
+                        "VERIFIED",
+                        "ON_COOLDOWN",
+                        "WAITING_AREA",
+                        "UNSUCCESSFULL",
+                        "BLOCKED"
+                      ]
                     }
                   },
                   "required": [
