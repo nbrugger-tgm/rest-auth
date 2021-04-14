@@ -140,7 +140,7 @@
         "operationId": "getInformation",
         "security": [
           {
-            "User key": []
+            "user_key": []
           }
         ],
         "description": "Get information only accessible by the user himself"
@@ -150,7 +150,7 @@
   "components": {
     "schemas": {},
     "securitySchemes": {
-      "User key": {
+      "user_key": {
         "type": "apiKey",
         "in": "header",
         "name": "X-SESSION",
